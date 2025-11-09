@@ -47,6 +47,34 @@ async function run() {
         result,
       })
     })
+      app.put("/foods/:id",async(req,res)=>{
+      const {id} = req.params
+      const data=req.body
+      const objectId = new ObjectId(id)
+        const filter = {_id: objectId}
+      const update={
+        $set:data
+      }
+      
+      
+      const result = await foodCollection.updateOne(filter,update)
+       res.send({
+        success:true,
+        result,
+      })
+    })
+
+    //delete
+        app.delete("/foods/:id",async(req,res)=>{
+      const {id} = req.params
+      const result = await foodCollection.deleteOne({_id: new ObjectId(id)})
+       res.send({
+        success:true,
+        result,
+      })
+    })
+
+
 
     await client.db("admin").command({ ping: 1 });
     console.log("Pinged your deployment. You successfully connected to MongoDB!");
