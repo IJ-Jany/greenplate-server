@@ -30,6 +30,13 @@ async function run() {
     const  result = await foodCollection.find().toArray()
     res.send(result)
     })
+
+    app.get("/highest-foods",async(req,res)=>{
+      const cursor = foodCollection.find()
+      const sorted = cursor.sort({food_quantity:'asc'})
+    const  result = await sorted.limit(6).toArray()
+    res.send(result)
+    })
     app.post("/foods", async(req,res)=>{
       const data = req.body
       const result = await foodCollection.insertOne(data)
