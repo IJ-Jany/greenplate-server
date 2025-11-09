@@ -1,6 +1,6 @@
 const express = require('express')
 const cors = require('cors')
-const { MongoClient, ServerApiVersion } = require('mongodb');
+const { MongoClient, ServerApiVersion,ObjectId } = require('mongodb');
 const app = express()
 require('dotenv').config();
 const port = process.env.PORT || 3000
@@ -34,6 +34,15 @@ async function run() {
       const data = req.body
       const result = await foodCollection.insertOne(data)
       res.send({
+        success:true,
+        result,
+      })
+    })
+    app.get("/foods/:id",async(req,res)=>{
+      const {id} = req.params
+      const objectId = new ObjectId(id)
+      const result = await foodCollection.findOne({_id:objectId})
+       res.send({
         success:true,
         result,
       })
